@@ -5,7 +5,7 @@ args = process.argv.slice(2);
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
-
+//take repo url and json parse
 function getRepoContributors(repoOwner, repoName, cb) {
   if (!repoName || !repoOwner) {
     console.log("Repository name and owner should not be blank.");
@@ -22,11 +22,10 @@ function getRepoContributors(repoOwner, repoName, cb) {
   }
 }
 
-
+//takes arguments from command line and download images through urls generated
 getRepoContributors(args[0], args[1], function(err, result) {
   if (!err) {
     for (var i = 0; i < result.length; i++) {
-      //console.log(result[i].avatar_url); log url instead of downloading image
       downloadImageByURL(result[i].avatar_url, "avatars/" + result[i].login + ".jpg");
     }
     console.log("Download Complete!");
@@ -35,7 +34,7 @@ getRepoContributors(args[0], args[1], function(err, result) {
   }
 });
 
-
+// takes urls and download to specific folder described by filePath
 function downloadImageByURL(url, filePath){
   request.get(url);
          .on('error', function (err) {
@@ -43,10 +42,5 @@ function downloadImageByURL(url, filePath){
           })
          .pipe(fs.createWriteStream(filePath));
 }
-
-
-
-//downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg")
-
 
 
